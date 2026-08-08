@@ -1,0 +1,9 @@
+# Muhammad Hanan
+
+> Portfolio of Muhammad Hanan — Full Stack Developer, 3D Web Developer, and UI/UX Designer building production-grade web experiences with React, TypeScript, Three.js, and Supabase.
+
+## Pages
+- [Home](/): Portfolio overview — hero, about, skills, services, featured projects, experience, and contact.
+
+## Optional
+- [Sitemap](/sitemap.xml): Full list of indexable URLs.
