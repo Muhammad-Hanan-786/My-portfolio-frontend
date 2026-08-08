@@ -5,6 +5,7 @@ import tailwindcss from "@tailwindcss/vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
+  base: process.env.GITHUB_PAGES === "true" ? "/My-portfolio-frontend/" : "/",
   server: {
     fs: {
       allow: [".."],
