@@ -467,7 +467,7 @@ function ImageUpload({
   );
 }
 
-async function compressImage(file: File, maxDim: number, quality: number): Promise<string> {
+async function compressImage(file: File, maxDim = 1200, quality = 0.8): Promise<string> {
   const bitmap = await createImageBitmap(file);
   const scale = Math.min(1, maxDim / Math.max(bitmap.width, bitmap.height));
   const w = Math.round(bitmap.width * scale);
@@ -477,9 +477,11 @@ async function compressImage(file: File, maxDim: number, quality: number): Promi
   canvas.height = h;
   const ctx = canvas.getContext("2d");
   if (!ctx) throw new Error("Canvas unsupported");
+  // Fill white background for JPEGs if PNG has transparency
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, w, h);
   ctx.drawImage(bitmap, 0, 0, w, h);
-  const mime = file.type === "image/png" ? "image/png" : "image/jpeg";
-  return canvas.toDataURL(mime, quality);
+  return canvas.toDataURL("image/jpeg", quality);
 }
 
 function VideoUpload({
