@@ -21,7 +21,7 @@ export const Route = createFileRoute("/projects/$slug")({
     const p = (loaderData as any)?.project;
     const title = p ? `${p.title} — Muhammad Hanan` : "Project — Muhammad Hanan";
     const description = (p?.short_description || p?.description || "Case study by Muhammad Hanan — full stack and 3D web development.").slice(0, 158);
-    const url = `https://muhammadhanan.tech/projects/${params.slug}`;
+    const url = `https://www.muhammadhanan.tech/projects/${params.slug}`;
     const image = p?.cover_url || p?.thumbnail_url || null;
     const meta: Array<Record<string, string>> = [
       { title },

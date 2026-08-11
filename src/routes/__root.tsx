@@ -75,7 +75,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:site_name", content: "Muhammad Hanan" },
       { property: "og:title", content: "Muhammad Hanan — Full Stack & 3D Web Developer" },
       { property: "og:description", content: "Portfolio of Muhammad Hanan, Full Stack Developer specializing in React, Node.js, TypeScript, and interactive 3D web experiences." },
-      { property: "og:url", content: "https://muhammadhanan.tech" },
+      { property: "og:url", content: "https://www.muhammadhanan.tech" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Muhammad Hanan — Full Stack & 3D Web Developer" },
       { name: "twitter:description", content: "Portfolio of Muhammad Hanan, Full Stack Developer specializing in React, Node.js, TypeScript, and interactive 3D web experiences." },
@@ -87,7 +87,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@context": "https://schema.org",
           "@type": "WebSite",
           name: "Muhammad Hanan",
-          url: "https://muhammadhanan.tech",
+          url: "https://www.muhammadhanan.tech",
           author: {
             "@type": "Person",
             name: "Muhammad Hanan",

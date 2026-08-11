@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 const BASE_URL =
   (typeof process !== "undefined" && process.env.VITE_SITE_URL) ||
   (typeof import.meta !== "undefined" && import.meta.env?.VITE_SITE_URL) ||
-  "https://muhammadhanan.tech";
+  "https://www.muhammadhanan.tech";
 
 const API_URL =
   (typeof process !== "undefined" && process.env.VITE_API_URL) ||

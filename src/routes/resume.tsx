@@ -16,7 +16,7 @@ export const Route = createFileRoute("/resume")({
       { property: "og:type", content: "profile" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "https://muhammadhanan.tech/resume" }],
+    links: [{ rel: "canonical", href: "https://www.muhammadhanan.tech/resume" }],
   }),
   loader: async ({ context }) => {
     await context.queryClient.ensureQueryData({
@@ -63,7 +63,7 @@ function ResumePage() {
   const email = d.settings?.email || "muhammadhanan1069@gmail.com";
   const phone = d.settings?.phone || "+92 318 7300630";
   const location = d.settings?.location || "Pakistan";
-  const website = d.settings?.website || "https://muhammadhanan.tech";
+  const website = d.settings?.website || "https://www.muhammadhanan.tech";
 
   const social: Array<{ platform: string; url: string }> = d.social ?? [];
   const github = social.find((s) => s.platform?.toLowerCase() === "github")?.url;

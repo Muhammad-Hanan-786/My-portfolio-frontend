@@ -29,9 +29,9 @@ export const Route = createFileRoute("/")({
         property: "og:description",
         content: "Modern 3D portfolio websites, dashboards, and full-stack apps.",
       },
-      { property: "og:url", content: "https://muhammadhanan.tech/" },
+      { property: "og:url", content: "https://www.muhammadhanan.tech/" },
     ],
-    links: [{ rel: "canonical", href: "https://muhammadhanan.tech/" }],
+    links: [{ rel: "canonical", href: "https://www.muhammadhanan.tech/" }],
     scripts: [
       {
         type: "application/ld+json",
@@ -40,7 +40,7 @@ export const Route = createFileRoute("/")({
           "@type": "Person",
           name: "Muhammad Hanan",
           jobTitle: "Full Stack & 3D Web Developer",
-          url: "https://muhammadhanan.tech",
+          url: "https://www.muhammadhanan.tech",
           sameAs: [
             "https://github.com/muhammadhanan1069",
             "https://www.linkedin.com/in/muhammadhanan1069",
@@ -271,11 +271,11 @@ function Hero({ data }: { data: any }) {
           </FadeIn>
 
           <h1 className="text-display text-gradient mt-6 max-w-[14ch]">
-            <RevealText text="Muhammad Hanan" delay={0.3} />
+            <RevealText text={hero.name || "Muhammad Hanan"} delay={0.3} />
           </h1>
 
           <FadeIn delay={0.7} className="mt-8 max-w-2xl">
-            <p className="text-lg leading-relaxed text-muted-foreground">{hero.description}</p>
+            <p className="text-lg leading-relaxed text-muted-foreground">{hero.headline || hero.description}</p>
           </FadeIn>
 
           <FadeIn delay={0.85} className="mt-10 flex flex-wrap items-center gap-3">

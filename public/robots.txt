@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin
 Disallow: /auth
 
-Sitemap: https://muhammadhanan.tech/sitemap.xml
+Sitemap: https://www.muhammadhanan.tech/sitemap.xml
