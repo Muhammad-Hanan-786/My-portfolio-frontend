@@ -28,6 +28,7 @@ export const getSiteContent = createServerFn({ method: "GET" }).handler(async ()
       social: data.social ?? [],
       seo: data.seo ?? null,
       settings: data.settings ?? {},
+      resume: data.resume ?? null,
     };
   } catch (err) {
     console.error("Error fetching site content:", err);
@@ -44,6 +45,7 @@ export const getSiteContent = createServerFn({ method: "GET" }).handler(async ()
       social: [],
       seo: null,
       settings: {},
+      resume: null,
     };
   }
 });

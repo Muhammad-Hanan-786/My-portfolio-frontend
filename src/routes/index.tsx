@@ -401,8 +401,17 @@ function PortraitCard({ profileImageUrl }: { profileImageUrl?: string | null }) 
 }
 
 function Marquee({ data }: { data: any }) {
-  const techs: any[] = data.technologies ?? [];
-  if (!techs.length) return null;
+  const defaultTechs = [
+    { id: "1", name: "CSS" },
+    { id: "2", name: "Three.js" },
+    { id: "3", name: "React Three Fiber" },
+    { id: "4", name: "Framer Motion" },
+    { id: "5", name: "GSAP" },
+    { id: "6", name: "Vite" },
+    { id: "7", name: "GitHub" },
+    { id: "8", name: "PostgreSQL" },
+  ];
+  const techs: any[] = data.technologies?.length ? data.technologies : defaultTechs;
   const items = [...techs, ...techs];
   return (
     <section className="relative border-y border-border bg-surface/60 py-6">
@@ -413,7 +422,7 @@ function Marquee({ data }: { data: any }) {
           transition={{ duration: 38, ease: "linear", repeat: Infinity }}
         >
           {items.map((t, i) => (
-            <span key={`${t.id}-${i}`} className="text-2xl font-medium text-muted-foreground">
+            <span key={`${t.id || t.name}-${i}`} className="text-2xl font-medium text-muted-foreground">
               {t.name}
             </span>
           ))}

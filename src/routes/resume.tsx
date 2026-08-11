@@ -55,32 +55,61 @@ function ResumePage() {
     staleTime: 60_000,
   });
 
-  const d = data ?? { hero: null, about: null, projects: [], skills: [], technologies: [], services: [], experience: [], education: [], certificates: [], social: [], seo: null, settings: {} } as any;
+  const d = (data ?? { hero: null, about: null, resume: null, projects: [], skills: [], technologies: [], services: [], experience: [], education: [], certificates: [], social: [], seo: null, settings: {} }) as any;
+  const r = d.resume ?? {};
 
-  const name = d.hero?.name || "Muhammad Hanan";
-  const roles: string[] = d.hero?.roles?.length ? d.hero.roles : ["Full Stack Developer", "3D Web Developer"];
-  const summary = d.about?.biography || d.hero?.description || "";
-  const email = d.settings?.email || "muhammadhanan1069@gmail.com";
-  const phone = d.settings?.phone || "+92 318 7300630";
-  const location = d.settings?.location || "Pakistan";
-  const website = d.settings?.website || "https://www.muhammadhanan.tech";
+  const name = r.full_name || d.hero?.name || "Muhammad Hanan";
+  const roles: string[] = (r.title_roles && r.title_roles.length > 0) ? r.title_roles : (d.hero?.roles?.length ? d.hero.roles : ["Full Stack Developer", "3D Web Developer"]);
+  const summary = r.summary || d.about?.biography || d.hero?.description || "";
+  const email = r.email || d.settings?.email || "muhammadhanan1069@gmail.com";
+  const phone = r.phone || d.settings?.phone || "+92 318 7300630";
+  const location = r.location || d.settings?.location || "Pakistan";
+  const website = r.website_url || d.settings?.website || "https://www.muhammadhanan.tech";
+  const pdfUrl = r.pdf_url || d.settings?.resume_url;
 
   const social: Array<{ platform: string; url: string }> = d.social ?? [];
-  const github = social.find((s) => s.platform?.toLowerCase() === "github")?.url;
-  const linkedin = social.find((s) => s.platform?.toLowerCase() === "linkedin")?.url;
+  const github = r.github_url || social.find((s) => s.platform?.toLowerCase() === "github")?.url;
+  const linkedin = r.linkedin_url || social.find((s) => s.platform?.toLowerCase() === "linkedin")?.url;
 
-  // Group skills by category
-  const skillsByCategory = (d.skills ?? []).reduce((acc: Record<string, any[]>, s: any) => {
+  const showSummary = r.show_summary ?? true;
+  const showSkills = r.show_skills ?? true;
+  const showTechStack = r.show_tech_stack ?? true;
+  const showExperience = r.show_experience ?? true;
+  const showProjects = r.show_projects ?? true;
+  const showEducation = r.show_education ?? true;
+  const showCertificates = r.show_certificates ?? true;
+
+  // Read section content directly from Resume Controls (r.resume_*) or fallback to site content
+  const rawSkills: any[] = (r.resume_skills && r.resume_skills.length > 0) ? r.resume_skills : (d.skills ?? []);
+  const skillsByCategory = rawSkills.reduce((acc: Record<string, any[]>, s: any) => {
     const c = s.category || "Other";
     (acc[c] ||= []).push(s);
     return acc;
   }, {});
 
-  const technologies: any[] = d.technologies ?? [];
-  const experience: any[] = d.experience ?? [];
-  const education: any[] = d.education ?? [];
-  const certificates: any[] = d.certificates ?? [];
-  const projects: any[] = (d.projects ?? []).filter((p: any) => p.featured).slice(0, 4);
+  const technologies: any[] = (r.resume_tech_stack && r.resume_tech_stack.length > 0)
+    ? r.resume_tech_stack.map((t: string, i: number) => ({ id: i, name: t }))
+    : (d.technologies ?? []);
+  const experience: any[] = (r.resume_experience && r.resume_experience.length > 0) ? r.resume_experience : (d.experience ?? []);
+  const education: any[] = (r.resume_education && r.resume_education.length > 0) ? r.resume_education : (d.education ?? []);
+  const certificates: any[] = (r.resume_certificates && r.resume_certificates.length > 0) ? r.resume_certificates : (d.certificates ?? []);
+  const projects: any[] = (r.resume_projects && r.resume_projects.length > 0) ? r.resume_projects : (d.projects ?? []).filter((p: any) => p.is_active !== false);
+
+  const handleDownloadPdf = () => {
+    if (pdfUrl) {
+      window.open(pdfUrl, "_blank");
+    } else {
+      window.print();
+    }
+  };
+
+  const summaryTitle = r.summary_title || "Summary";
+  const skillsTitle = r.skills_title || "Skills";
+  const techStackTitle = r.tech_stack_title || "Tech Stack";
+  const experienceTitle = r.experience_title || "Experience";
+  const projectsTitle = r.projects_title || "Selected Projects";
+  const educationTitle = r.education_title || "Education";
+  const certificatesTitle = r.certificates_title || "Certifications";
 
   return (
     <>
@@ -109,7 +138,7 @@ function ResumePage() {
             </button>
             <button
               type="button"
-              onClick={() => window.print()}
+              onClick={handleDownloadPdf}
               className="inline-flex items-center gap-2 rounded-full bg-foreground px-4 py-2 text-sm font-medium text-background hover:scale-[1.02] transition-transform"
             >
               <Download className="size-4" /> Save as PDF
@@ -146,17 +175,17 @@ function ResumePage() {
                 )}
                 {website && (
                   <div className="flex items-center gap-2 md:justify-end">
-                    <Globe className="size-3.5" /> <a href={website} className="hover:text-foreground">{website.replace(/^https?:\/\//, "")}</a>
+                    <Globe className="size-3.5" /> <a href={website} target="_blank" rel="noreferrer" className="hover:text-foreground">{website.replace(/^https?:\/\//, "")}</a>
                   </div>
                 )}
                 <div className="flex items-center gap-3 md:justify-end pt-1">
                   {github && (
-                    <a href={github} className="inline-flex items-center gap-1 hover:text-foreground">
+                    <a href={github} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:text-foreground">
                       <Github className="size-3.5" /> GitHub
                     </a>
                   )}
                   {linkedin && (
-                    <a href={linkedin} className="inline-flex items-center gap-1 hover:text-foreground">
+                    <a href={linkedin} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:text-foreground">
                       <Linkedin className="size-3.5" /> LinkedIn
                     </a>
                   )}
@@ -166,15 +195,15 @@ function ResumePage() {
           </header>
 
           {/* Summary */}
-          {summary && (
-            <Section title="Summary">
+          {showSummary && summary && (
+            <Section title={summaryTitle}>
               <p className="text-sm leading-relaxed text-muted-foreground">{summary}</p>
             </Section>
           )}
 
           {/* Skills */}
-          {Object.keys(skillsByCategory).length > 0 && (
-            <Section title="Skills">
+          {showSkills && Object.keys(skillsByCategory).length > 0 && (
+            <Section title={skillsTitle}>
               <div className="space-y-3">
                 {Object.entries(skillsByCategory).map(([cat, list]) => (
                   <div key={cat} className="print-break-inside-avoid grid grid-cols-[140px_1fr] gap-4 items-start">
@@ -197,8 +226,8 @@ function ResumePage() {
           )}
 
           {/* Tech Stack */}
-          {technologies.length > 0 && (
-            <Section title="Tech Stack">
+          {showTechStack && technologies.length > 0 && (
+            <Section title={techStackTitle}>
               <div className="flex flex-wrap gap-1.5">
                 {technologies.map((t) => (
                   <span key={t.id} className="rounded-md bg-surface px-2 py-0.5 text-xs border border-border">
@@ -210,8 +239,8 @@ function ResumePage() {
           )}
 
           {/* Experience */}
-          {experience.length > 0 && (
-            <Section title="Experience">
+          {showExperience && experience.length > 0 && (
+            <Section title={experienceTitle}>
               <div className="space-y-5">
                 {experience.map((e) => (
                   <div key={e.id} className="print-break-inside-avoid">
@@ -248,15 +277,15 @@ function ResumePage() {
           )}
 
           {/* Projects */}
-          {projects.length > 0 && (
-            <Section title="Selected Projects">
+          {showProjects && projects.length > 0 && (
+            <Section title={projectsTitle}>
               <div className="space-y-4">
                 {projects.map((p) => (
                   <div key={p.id} className="print-break-inside-avoid">
                     <div className="flex flex-wrap items-baseline justify-between gap-2">
                       <h3 className="text-base font-semibold">{p.title}</h3>
                       {p.live_url && (
-                        <a href={p.live_url} className="text-xs text-muted-foreground hover:text-foreground">
+                        <a href={p.live_url} target="_blank" rel="noreferrer" className="text-xs text-muted-foreground hover:text-foreground">
                           {p.live_url.replace(/^https?:\/\//, "")}
                         </a>
                       )}
@@ -276,8 +305,8 @@ function ResumePage() {
           )}
 
           {/* Education */}
-          {education.length > 0 && (
-            <Section title="Education">
+          {showEducation && education.length > 0 && (
+            <Section title={educationTitle}>
               <div className="space-y-4">
                 {education.map((e) => (
                   <div key={e.id} className="print-break-inside-avoid">
@@ -305,8 +334,8 @@ function ResumePage() {
           )}
 
           {/* Certifications */}
-          {certificates.length > 0 && (
-            <Section title="Certifications">
+          {showCertificates && certificates.length > 0 && (
+            <Section title={certificatesTitle}>
               <ul className="space-y-2">
                 {certificates.map((c) => (
                   <li key={c.id} className="print-break-inside-avoid flex flex-wrap items-baseline justify-between gap-2 text-sm">
@@ -319,7 +348,7 @@ function ResumePage() {
                       {c.credential_url && (
                         <>
                           {" · "}
-                          <a href={c.credential_url} className="hover:text-foreground">Credential</a>
+                          <a href={c.credential_url} target="_blank" rel="noreferrer" className="hover:text-foreground">Credential</a>
                         </>
                       )}
                     </div>

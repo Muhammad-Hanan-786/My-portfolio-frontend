@@ -236,9 +236,82 @@ export const seoSchema: TableSchema = {
   defaults: { is_active: true },
 };
 
+export const resumeSchema: TableSchema = {
+  table: "resume",
+  label: "Resume Controls",
+  singleton: true,
+  titleKey: "full_name",
+  fields: [
+    { key: "full_name", label: "Full Name", type: "text" },
+    { key: "title_roles", label: "Professional Roles (comma separated)", type: "array", help: "e.g. Full Stack Developer, 3D Web Developer" },
+    { key: "summary", label: "Resume Summary", type: "textarea", help: "Custom summary/objective statement for the resume page" },
+    { key: "email", label: "Contact Email", type: "text" },
+    { key: "phone", label: "Contact Phone", type: "text" },
+    { key: "location", label: "Location", type: "text" },
+    { key: "website_url", label: "Website URL", type: "url" },
+    { key: "github_url", label: "GitHub URL", type: "url" },
+    { key: "linkedin_url", label: "LinkedIn URL", type: "url" },
+    { key: "pdf_url", label: "Downloadable PDF URL", type: "url", help: "Direct link or uploaded PDF file for Download Resume button" },
+
+    { key: "summary_title", label: "Summary Section Header", type: "text" },
+    { key: "show_summary", label: "Show Summary Section", type: "boolean" },
+
+    { key: "skills_title", label: "Skills Section Header", type: "text" },
+    { key: "show_skills", label: "Show Skills Section", type: "boolean" },
+    { key: "resume_skills", label: "Skills List (JSON array of {name, category, level})", type: "json", help: "Edit resume skills directly" },
+
+    { key: "tech_stack_title", label: "Tech Stack Section Header", type: "text" },
+    { key: "show_tech_stack", label: "Show Tech Stack Section", type: "boolean" },
+    { key: "resume_tech_stack", label: "Tech Stack Items (comma separated)", type: "array", help: "Edit resume tech stack items directly" },
+
+    { key: "experience_title", label: "Experience Section Header", type: "text" },
+    { key: "show_experience", label: "Show Experience Section", type: "boolean" },
+    { key: "resume_experience", label: "Experience Entries (JSON array of {role, company, start_date, end_date, current, description, achievements, skills_used})", type: "json", help: "Edit experience roles & bullet achievements directly" },
+
+    { key: "projects_title", label: "Projects Section Header", type: "text" },
+    { key: "show_projects", label: "Show Projects Section", type: "boolean" },
+    { key: "resume_projects", label: "Selected Projects (JSON array of {title, short_description, technologies, live_url})", type: "json", help: "Edit selected projects directly" },
+
+    { key: "education_title", label: "Education Section Header", type: "text" },
+    { key: "show_education", label: "Show Education Section", type: "boolean" },
+    { key: "resume_education", label: "Education Entries (JSON array of {degree, institution, start_date, end_date, description, achievements})", type: "json", help: "Edit education degrees & institutions directly" },
+
+    { key: "certificates_title", label: "Certifications Section Header", type: "text" },
+    { key: "show_certificates", label: "Show Certifications Section", type: "boolean" },
+    { key: "resume_certificates", label: "Certifications Entries (JSON array of {name, organization, issue_date, credential_url})", type: "json", help: "Edit certifications directly" },
+
+    { key: "is_active", label: "Active", type: "boolean" },
+  ],
+  defaults: {
+    summary_title: "Summary",
+    skills_title: "Skills",
+    tech_stack_title: "Tech Stack",
+    experience_title: "Experience",
+    projects_title: "Selected Projects",
+    education_title: "Education",
+    certificates_title: "Certifications",
+    show_summary: true,
+    show_skills: true,
+    show_tech_stack: true,
+    show_experience: true,
+    show_projects: true,
+    show_education: true,
+    show_certificates: true,
+    resume_skills: [],
+    resume_tech_stack: [],
+    resume_experience: [],
+    resume_education: [],
+    resume_projects: [],
+    resume_certificates: [],
+    is_active: true,
+    title_roles: [],
+  },
+};
+
 export const adminSchemas = {
   hero: heroSchema,
   about: aboutSchema,
+  resume: resumeSchema,
   projects: projectsSchema,
   skills: skillsSchema,
   technologies: technologiesSchema,

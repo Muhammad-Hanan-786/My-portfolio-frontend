@@ -18,6 +18,7 @@ import {
   Menu,
   X,
   Palette,
+  FileText,
 } from "lucide-react";
 
 import { removeAdminToken } from "@/lib/auth-token";
@@ -35,6 +36,7 @@ export const Route = createFileRoute("/_authenticated/admin")({
 type TabKey =
   | "hero"
   | "about"
+  | "resume"
   | "projects"
   | "skills"
   | "technologies"
@@ -49,14 +51,15 @@ type TabKey =
   | "theme";
 
 const NAV: { key: TabKey; label: string; icon: any; group: string }[] = [
-  { key: "hero", label: "Hero", icon: Sparkles, group: "Site" },
+  { key: "hero", label: "Hero & Roles", icon: Sparkles, group: "Site" },
   { key: "about", label: "About", icon: User, group: "Site" },
+  { key: "resume", label: "Resume Controls", icon: FileText, group: "Site" },
   { key: "theme", label: "Theme", icon: Palette, group: "Site" },
   { key: "settings", label: "Settings", icon: SettingsIcon, group: "Site" },
   { key: "seo", label: "SEO", icon: Search, group: "Site" },
   { key: "projects", label: "Projects", icon: FolderGit2, group: "Content" },
   { key: "skills", label: "Skills", icon: Layers, group: "Content" },
-  { key: "technologies", label: "Technologies", icon: Layers, group: "Content" },
+  { key: "technologies", label: "Tech Stack / Ticker", icon: Layers, group: "Content" },
   { key: "services", label: "Services", icon: Briefcase, group: "Content" },
   { key: "experience", label: "Experience", icon: Briefcase, group: "Journey" },
   { key: "education", label: "Education", icon: GraduationCap, group: "Journey" },
