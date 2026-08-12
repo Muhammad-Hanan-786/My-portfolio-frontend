@@ -467,7 +467,7 @@ function ImageUpload({
   );
 }
 
-async function compressImage(file: File, maxDim = 1200, quality = 0.8): Promise<string> {
+async function compressImage(file: File, maxDim = 800, quality = 0.75): Promise<string> {
   const bitmap = await createImageBitmap(file);
   const scale = Math.min(1, maxDim / Math.max(bitmap.width, bitmap.height));
   const w = Math.round(bitmap.width * scale);

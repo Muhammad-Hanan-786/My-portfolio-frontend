@@ -1,6 +1,14 @@
 import { getAdminToken } from "@/lib/auth-token";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+function getApiUrl(): string {
+  const envUrl = (import.meta.env.VITE_API_URL || "")?.replace(/\/$/, "");
+  if (envUrl) return envUrl;
+  if (typeof window !== "undefined" && !window.location.hostname.includes("localhost") && !window.location.hostname.includes("127.0.0.1")) {
+    return "";
+  }
+  return "http://localhost:5000";
+}
+const API_URL = getApiUrl();
 
 const TABLES = [
   "hero",
