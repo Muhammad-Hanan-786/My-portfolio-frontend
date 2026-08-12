@@ -1,6 +1,6 @@
 import { getAdminToken } from "@/lib/auth-token";
 
-function getApiUrl(): string {
+export function getApiUrl(): string {
   const envUrl = (import.meta.env.VITE_API_URL || "")?.replace(/\/$/, "");
   if (envUrl) return envUrl;
   if (typeof window !== "undefined" && !window.location.hostname.includes("localhost") && !window.location.hostname.includes("127.0.0.1")) {
@@ -8,79 +8,84 @@ function getApiUrl(): string {
   }
   return "http://localhost:5000";
 }
-const API_URL = getApiUrl();
-
-const TABLES = [
-  "hero",
-  "about",
-  "projects",
-  "skills",
-  "technologies",
-  "services",
-  "experience",
-  "education",
-  "certificates",
-  "social_links",
-  "contact_messages",
-  "settings",
-  "seo",
-] as const;
-
-export type AdminTable = (typeof TABLES)[number];
 
 function getAuthHeader(dataToken?: string): string {
   const token = dataToken || getAdminToken();
-  if (!token) throw new Error("Unauthorized: Missing token");
+  if (!token) throw new Error("Unauthorized: Missing admin session token");
   return token.startsWith("Bearer ") ? token : `Bearer ${token}`;
 }
 
 export async function adminList({ data }: { data: { table: string; token?: string } }) {
   const authHeader = getAuthHeader(data.token);
-  const res = await fetch(`${API_URL}/api/admin/list`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: authHeader,
-    },
-    body: JSON.stringify({ table: data.table }),
-  });
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error(err.error || "Failed to fetch list");
+  const url = `${getApiUrl()}/api/admin/list`;
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: authHeader,
+      },
+      body: JSON.stringify({ table: data.table }),
+    });
+    if (!res.ok) {
+      const text = await res.text().catch(() => "");
+      let json: any = {};
+      try { json = JSON.parse(text); } catch {}
+      throw new Error(json.error || `HTTP ${res.status}: Failed to fetch list`);
+    }
+    return await res.json();
+  } catch (err: any) {
+    console.error("[adminList error]", err);
+    throw new Error(err.message || "Failed to fetch list");
   }
-  return await res.json();
 }
 
 export async function adminUpsert({ data }: { data: { table: string; row: Record<string, any>; token?: string } }) {
   const authHeader = getAuthHeader(data.token);
-  const res = await fetch(`${API_URL}/api/admin/upsert`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: authHeader,
-    },
-    body: JSON.stringify({ table: data.table, row: data.row }),
-  });
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error(err.error || "Failed to save record");
+  const url = `${getApiUrl()}/api/admin/upsert`;
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: authHeader,
+      },
+      body: JSON.stringify({ table: data.table, row: data.row }),
+    });
+    if (!res.ok) {
+      const text = await res.text().catch(() => "");
+      let json: any = {};
+      try { json = JSON.parse(text); } catch {}
+      throw new Error(json.error || `HTTP ${res.status}: Failed to save record`);
+    }
+    return await res.json();
+  } catch (err: any) {
+    console.error("[adminUpsert error]", err);
+    throw new Error(err.message || "Failed to save record");
   }
-  return await res.json();
 }
 
 export async function adminDelete({ data }: { data: { table: string; id: string; hard?: boolean; token?: string } }) {
   const authHeader = getAuthHeader(data.token);
-  const res = await fetch(`${API_URL}/api/admin/delete`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: authHeader,
-    },
-    body: JSON.stringify({ table: data.table, id: data.id, hard: data.hard }),
-  });
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error(err.error || "Failed to delete record");
+  const url = `${getApiUrl()}/api/admin/delete`;
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: authHeader,
+      },
+      body: JSON.stringify({ table: data.table, id: data.id, hard: data.hard }),
+    });
+    if (!res.ok) {
+      const text = await res.text().catch(() => "");
+      let json: any = {};
+      try { json = JSON.parse(text); } catch {}
+      throw new Error(json.error || `HTTP ${res.status}: Failed to delete record`);
+    }
+    return await res.json();
+  } catch (err: any) {
+    console.error("[adminDelete error]", err);
+    throw new Error(err.message || "Failed to delete record");
   }
-  return await res.json();
 }

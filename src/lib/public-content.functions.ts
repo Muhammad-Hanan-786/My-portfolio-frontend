@@ -1,14 +1,23 @@
 import { createServerFn } from "@tanstack/react-start";
 
-const API_URL =
-  (typeof import.meta !== "undefined" && import.meta.env?.VITE_API_URL) ||
-  (typeof process !== "undefined" && process.env?.VITE_API_URL) ||
-  (typeof process !== "undefined" && process.env?.API_URL) ||
-  "http://localhost:5000";
+function getApiUrl(): string {
+  const envUrl = (
+    (typeof import.meta !== "undefined" && import.meta.env?.VITE_API_URL) ||
+    (typeof process !== "undefined" && process.env?.VITE_API_URL) ||
+    (typeof process !== "undefined" && process.env?.API_URL) ||
+    ""
+  ).replace(/\/$/, "");
+  if (envUrl) return envUrl;
+  if (typeof window !== "undefined" && !window.location.hostname.includes("localhost") && !window.location.hostname.includes("127.0.0.1")) {
+    return "";
+  }
+  return "http://localhost:5000";
+}
 
 export const getSiteContent = createServerFn({ method: "GET" }).handler(async () => {
+  const apiUrl = getApiUrl();
   try {
-    const res = await fetch(`${API_URL}/api/public/content`, {
+    const res = await fetch(`${apiUrl}/api/public/content`, {
       headers: { "Content-Type": "application/json" },
     });
     if (!res.ok) {
