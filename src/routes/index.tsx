@@ -80,7 +80,7 @@ function Home() {
 
   return (
     <div className="bg-background text-foreground">
-      <CinematicLoader />
+      <CinematicLoader data={d} />
       <Nav />
       <main>
         <Hero data={d} />
