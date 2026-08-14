@@ -13,6 +13,7 @@ import { CinematicLoader } from "@/components/site/Loader";
 import bannerVideo from "@/assets/banner2.mp4.asset.json";
 import { FadeIn, RevealText, Magnetic } from "@/components/motion/primitives";
 import { ProjectsCarousel3D } from "@/components/site/ProjectsCarousel3D";
+import { ServicesSection } from "@/components/site/ServicesSection";
 import portrait from "@/assets/hanan-portrait.png.asset.json";
 
 export const Route = createFileRoute("/")({
@@ -522,28 +523,7 @@ function Skills({ data }: { data: any }) {
 }
 
 function Services({ data }: { data: any }) {
-  const services: any[] = data.services ?? [];
-  return (
-    <section id="services" className="container-page py-20 md:py-32">
-      <SectionHeader eyebrow="Services" title="What I build for clients." />
-      <div className="mt-12 md:mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {services.map((s: any, i: number) => (
-          <FadeIn key={s.id} delay={i * 0.04}>
-            <div className="group h-full rounded-3xl border border-border bg-surface p-7 transition-colors hover:border-border-strong">
-              <div className="text-eyebrow">0{(i + 1).toString().padStart(2, "0")}</div>
-              <div className="mt-3 text-2xl font-semibold tracking-tight">{s.title}</div>
-              <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{s.description}</p>
-              <ul className="mt-5 flex flex-wrap gap-1.5">
-                {(s.features ?? []).map((f: string) => (
-                  <li key={f} className="rounded-full bg-surface-2 px-2.5 py-1 text-xs text-muted-foreground">{f}</li>
-                ))}
-              </ul>
-            </div>
-          </FadeIn>
-        ))}
-      </div>
-    </section>
-  );
+  return <ServicesSection data={data} />;
 }
 
 const EMAILJS_SERVICE_ID = "service_ix0glgq";
