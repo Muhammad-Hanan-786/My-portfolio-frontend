@@ -14,6 +14,8 @@ type Project = {
   cover_url?: string;
   thumbnail_url?: string;
   live_url?: string;
+  status?: string;
+  in_progress?: boolean;
 };
 
 
@@ -206,7 +208,22 @@ function ProjectCard({ project: p, active }: { project: Project; active: boolean
           );
         })()}
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-background via-background/85 to-transparent" />
-        <div className="absolute left-5 top-5 rounded-full bg-background/70 px-2.5 py-1 text-eyebrow backdrop-blur-md">{p.category}</div>
+        <div className="absolute left-5 top-5 flex flex-wrap items-center gap-2">
+          {p.category ? (
+            <div className="rounded-full bg-background/70 px-2.5 py-1 text-eyebrow backdrop-blur-md">
+              {p.category}
+            </div>
+          ) : null}
+          {(p.in_progress || p.status?.toLowerCase().includes("progress")) && (
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/40 bg-amber-500/20 px-2.5 py-1 text-[11px] font-semibold text-amber-300 backdrop-blur-md shadow-sm">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+              </span>
+              In Progress
+            </div>
+          )}
+        </div>
         <div className="absolute right-5 top-5 grid size-10 place-items-center rounded-full bg-foreground text-background opacity-0 transition-opacity group-hover:opacity-100">
           <ArrowUpRight className="size-4" />
         </div>

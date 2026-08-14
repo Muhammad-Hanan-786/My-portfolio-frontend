@@ -115,7 +115,18 @@ function ProjectDetail() {
           <ArrowLeft className="size-4" /> Back
         </Link>
         <FadeIn>
-          <div className="mt-8 text-eyebrow">{project.category}</div>
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            {project.category ? <div className="text-eyebrow">{project.category}</div> : null}
+            {(project.in_progress || project.status?.toLowerCase().includes("progress")) && (
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/40 bg-amber-500/20 px-3 py-1 text-xs font-semibold text-amber-300 backdrop-blur-md shadow-sm">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+                </span>
+                In Progress
+              </div>
+            )}
+          </div>
           <h1 className="text-display text-gradient mt-4 max-w-[18ch]">{project.title}</h1>
           <p className="mt-6 max-w-2xl text-lg text-muted-foreground">{project.description}</p>
         </FadeIn>

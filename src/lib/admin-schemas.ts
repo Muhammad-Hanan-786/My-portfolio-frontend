@@ -65,13 +65,14 @@ export const projectsSchema: TableSchema = {
     { key: "github_url", label: "GitHub URL", type: "url" },
     { key: "live_url", label: "Live URL", type: "url" },
     { key: "case_study_url", label: "Case study URL", type: "url" },
-    { key: "status", label: "Status", type: "text", help: "e.g. Live, In progress, Archived" },
+    { key: "status", label: "Status", type: "text", help: "e.g. Live, In Progress, Archived" },
+    { key: "in_progress", label: "In Progress", type: "boolean", help: "Show 'In Progress' live badge on project card" },
     { key: "completion_date", label: "Completion date", type: "date" },
     { key: "featured", label: "Featured", type: "boolean" },
     { key: "display_order", label: "Display order", type: "number" },
     { key: "is_active", label: "Active", type: "boolean" },
   ],
-  defaults: { is_active: true, featured: false, display_order: 0, technologies: [], features: [] },
+  defaults: { is_active: true, in_progress: false, featured: false, display_order: 0, technologies: [], features: [] },
 };
 
 export const skillsSchema: TableSchema = {
