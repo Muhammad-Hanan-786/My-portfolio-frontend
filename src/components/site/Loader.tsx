@@ -37,27 +37,26 @@ export function CinematicLoader({ data }: { data?: any }) {
       return () => clearTimeout(timer);
     }
 
-    // Timeline Sequence:
-    // 0.0s – 1.4s: Name Entrance & Hold
-    // 1.4s – 1.6s: Name Mask Away
-    // 1.6s – 3.0s: Horizontal Image Slices Reveal & Assemble
-    // 3.0s – 3.8s: Slices Expand Outward & Reveal Homepage
-    // 3.8s+: Unmount Loader
+    // Accelerated Timeline Sequence (~1.85s total):
+    // 0.0s – 0.6s: Name Entrance & Hold
+    // 0.6s – 1.4s: Horizontal Image Slices Reveal & Assemble
+    // 1.4s – 1.85s: Slices Expand Outward & Reveal Homepage
+    // 1.85s+: Unmount Loader
 
     const imageTimer = setTimeout(() => {
       setStage("image");
-    }, 1400);
+    }, 600);
 
     const exitTimer = setTimeout(() => {
       setStage("exit");
-    }, 3000);
+    }, 1400);
 
     const doneTimer = setTimeout(() => {
       setStage("done");
       try {
         sessionStorage.setItem("hasSeenIntro", "true");
       } catch {}
-    }, 3800);
+    }, 1850);
 
     return () => {
       clearTimeout(imageTimer);
@@ -92,7 +91,7 @@ export function CinematicLoader({ data }: { data?: any }) {
             initial={{ opacity: 0, y: 20, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -24, scale: 1.02 }}
-            transition={{ duration: 0.9, ease: customEase }}
+            transition={{ duration: 0.45, ease: customEase }}
           >
             <motion.span
               initial={{ opacity: 0, y: 10 }}
@@ -158,7 +157,7 @@ export function CinematicLoader({ data }: { data?: any }) {
                 }
 
                 const initialX = isLeft ? "-70px" : "70px";
-                const sliceDelay = stage === "exit" ? i * 0.04 : i * 0.05;
+                const sliceDelay = stage === "exit" ? i * 0.03 : i * 0.035;
 
                 return (
                   <motion.div
@@ -170,7 +169,7 @@ export function CinematicLoader({ data }: { data?: any }) {
                     initial={{ x: initialX, opacity: 0 }}
                     animate={{ x: targetX, opacity: 1 }}
                     transition={{
-                      duration: stage === "exit" ? 0.75 : 0.65,
+                      duration: stage === "exit" ? 0.48 : 0.42,
                       delay: sliceDelay,
                       ease: customEase,
                     }}

@@ -242,6 +242,8 @@ function Hero({ data }: { data: any }) {
           <img
             src={bannerImgSrc}
             alt="Banner"
+            fetchPriority="high"
+            decoding="async"
             className="absolute inset-0 h-full w-full object-cover [object-position:85%_center] md:[object-position:center]"
           />
         ) : (

@@ -7,10 +7,18 @@ import { nitro } from "nitro/vite";
 
 export default defineConfig({
   base: process.env.GITHUB_PAGES === "true" ? "/My-portfolio-frontend/" : "/",
+  resolve: {
+    tsconfigPaths: true,
+  },
   server: {
     fs: {
       allow: [".."],
     },
+  },
+  build: {
+    target: "esnext",
+    minify: "esbuild",
+    cssMinify: true,
   },
   plugins: [
     tsconfigPaths(),
